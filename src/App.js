@@ -1,18 +1,16 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
   const [data, setData] = useState([]);
 
   const getCharacters = async () => {
     try {
-      const response = await fetch(
+      const { data: responseAxios } = await axios.get(
         "https://finalspaceapi.com/api/v0/character"
       );
-      const json = await response.json();
-      console.log(json);
-      setData(json);
+      setData(responseAxios);
     } catch (err) {
       console.log(err);
     }
@@ -29,8 +27,8 @@ function App() {
         <div className="container">
           {data.map((character) => {
             return (
-              <div>
-                <img src={character.img_url} />
+              <div key={character.id}>
+                <img alt="Character" src={character.img_url} />
                 <p>Nome: {character.name}</p>
                 <p>Espécie: {character.species}</p>
               </div>

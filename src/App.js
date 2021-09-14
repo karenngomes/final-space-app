@@ -5,6 +5,7 @@ import Character from "./components/Character";
 
 function App() {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getCharacters = async () => {
     try {
@@ -14,6 +15,10 @@ function App() {
       setData(responseAxios);
     } catch (err) {
       console.log(err);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     }
   };
 
@@ -27,13 +32,11 @@ function App() {
       {data.length ? (
         <div className="container">
           {data.map((element) => {
-            return (
-              <Character key={element.id} character={element} />
-            );
+            return <Character key={element.id} character={element} />;
           })}
         </div>
       ) : (
-        <p>Sem dados</p>
+        <p>{isLoading ? "Carregando..." : "Sem dados"}</p>
       )}
     </div>
   );

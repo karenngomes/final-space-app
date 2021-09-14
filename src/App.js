@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  const getCharacters = async () => {
+    try {
+      const response = await fetch(
+        "https://finalspaceapi.com/api/v0/character"
+      );
+      const json = await response.json();
+      console.log(json);
+      setData(json);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getCharacters();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>Personagens de Final Space</p>
+      {data.length ? (
+        <div className="container">
+          {data.map((character) => {
+            return (
+              <div>
+                <img src={character.img_url} />
+                <p>Nome: {character.name}</p>
+                <p>Espécie: {character.species}</p>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p>Sem dados</p>
+      )}
     </div>
   );
 }

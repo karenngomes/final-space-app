@@ -1,6 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Character from "./components/Character";
 
 function App() {
   const [data, setData] = useState([]);
@@ -25,13 +26,9 @@ function App() {
       <p>Personagens de Final Space</p>
       {data.length ? (
         <div className="container">
-          {data.map((character) => {
+          {data.map((element) => {
             return (
-              <div key={character.id}>
-                <img alt="Character" src={character.img_url} />
-                <p>Nome: {character.name}</p>
-                <p>Espécie: {character.species}</p>
-              </div>
+              <Character key={element.id} character={element} />
             );
           })}
         </div>
